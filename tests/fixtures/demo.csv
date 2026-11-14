@@ -1,0 +1,5 @@
+# Тестовый запуск: цепочка A -> B -> C
+package,A
+repo,tests/testdata/chain.txt
+test_mode,on
+image,graph.png

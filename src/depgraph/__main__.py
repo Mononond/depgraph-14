@@ -19,7 +19,9 @@ def build_parser():
 
 def print_test_graph(settings):
     """Построить и вывести граф из тестового файла (этапы 3-5)."""
+    from depgraph.mermaid import describe
     from depgraph.order import load_order
+    from depgraph.pngimg import write_png
     if not settings["test_mode"] or not os.path.isfile(
             settings["repo"]):
         return None
@@ -36,6 +38,10 @@ def print_test_graph(settings):
     print("load order:")
     for name in load_order(settings["package"], get_deps):
         print("  " + name)
+    print("mermaid:")
+    print(describe(graph))
+    write_png(graph, settings["package"], settings["image"])
+    print("image: " + settings["image"])
     return 0
 
 
