@@ -18,12 +18,14 @@ def build_parser():
 
 
 def print_test_graph(settings):
-    """Построить и вывести граф из тестового файла (этап 3)."""
+    """Построить и вывести граф из тестового файла (этапы 3-5)."""
+    from depgraph.order import load_order
     if not settings["test_mode"] or not os.path.isfile(
             settings["repo"]):
         return None
     graph = load_test_repo(settings["repo"])
-    order, cycles = dfs_iterative(settings["package"], graph.get)
+    get_deps = graph.get
+    order, cycles = dfs_iterative(settings["package"], get_deps)
     print("graph order:")
     for name in order:
         print("  " + name)
@@ -31,6 +33,9 @@ def print_test_graph(settings):
         print("cycles:")
         for found in cycles:
             print("  " + " -> ".join(found))
+    print("load order:")
+    for name in load_order(settings["package"], get_deps):
+        print("  " + name)
     return 0
 
 
