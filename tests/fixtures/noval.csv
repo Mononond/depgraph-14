@@ -1,0 +1,4 @@
+package
+repo,https://crates.io
+test_mode,off
+image,graph.png

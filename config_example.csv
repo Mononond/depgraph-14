@@ -1,0 +1,5 @@
+# Пример настроек: пакет serde, обычный режим
+package,serde
+repo,https://crates.io
+test_mode,off
+image,graph.png
