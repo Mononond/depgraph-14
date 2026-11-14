@@ -2,6 +2,7 @@
 
 import argparse
 
+from depgraph.cargo import direct_dependencies
 from depgraph.config import ConfigError, format_params, load_settings
 
 
@@ -15,7 +16,7 @@ def build_parser():
 
 
 def main(argv=None):
-    """Точка входа: прочитать CSV и вывести параметры (этап 1)."""
+    """Точка входа: настройки, затем прямые зависимости (этап 2)."""
     args = build_parser().parse_args(argv)
     try:
         settings = load_settings(args.config)
@@ -23,6 +24,15 @@ def main(argv=None):
         print("ошибка: %s" % err)
         return 2
     print(format_params(settings))
+    try:
+        deps = direct_dependencies(settings["package"],
+                                   settings["repo"])
+    except Exception as err:  # сеть недоступна: честно сообщаем
+        print("ошибка: %s" % err)
+        return 1
+    print("dependencies:")
+    for name in deps:
+        print("  " + name)
     return 0
 
 
